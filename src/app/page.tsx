@@ -12,12 +12,12 @@ export default function Home() {
   );
 
   return (
-    <div className="flex h-screen w-full flex-col md:flex-row">
-      <div className="relative flex h-1/2 w-full items-center justify-center bg-muted/20 md:h-full md:w-2/3">
+    <div className="flex h-screen w-full flex-col lg:flex-row">
+      <div className="relative flex h-1/2 w-full items-center justify-center bg-muted/20 lg:h-full lg:w-2/3">
         <ShaderPreview settings={settings} />
       </div>
 
-      <ScrollArea className="h-1/2 w-full md:h-full md:w-1/3">
+      <ScrollArea className="h-1/2 w-full lg:h-full lg:w-1/3">
         <div className="p-6">
           <header className="mb-6">
             <a

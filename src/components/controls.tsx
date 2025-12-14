@@ -146,28 +146,29 @@ export function Controls({ settings, setSettings }: ControlsProps) {
             <Label>Font Weight: {settings.fontWeight}</Label>
             <Slider value={[settings.fontWeight]} onValueChange={handleSliderChange("fontWeight")} min={100} max={900} step={100} />
           </div>
-            <div className="grid grid-cols-2 gap-4">
-              <div className="space-y-3">
-                  <Label>Offset X: {settings.textTranslateX}px</Label>
-                  <Slider 
-                    value={[settings.textTranslateX]} 
-                    onValueChange={handleSliderChange("textTranslateX")} 
-                    min={-200} 
-                    max={200} 
-                    step={1} 
-                  />
-              </div>
-              <div className="space-y-3">
-                  <Label>Offset Y: {settings.textTranslateY}px</Label>
-                  <Slider 
-                    value={[settings.textTranslateY]} 
-                    onValueChange={handleSliderChange("textTranslateY")} 
-                    min={-200} 
-                    max={200} 
-                    step={1} 
-                  />
-              </div>
+
+          <div className="grid grid-cols-2 gap-4">
+            <div className="space-y-3">
+              <Label>Offset X: {settings.textTranslateX}px</Label>
+              <Slider
+                value={[settings.textTranslateX]}
+                onValueChange={handleSliderChange("textTranslateX")}
+                min={-200}
+                max={200}
+                step={1}
+              />
             </div>
+            <div className="space-y-3">
+              <Label>Offset Y: {settings.textTranslateY}px</Label>
+              <Slider
+                value={[settings.textTranslateY]}
+                onValueChange={handleSliderChange("textTranslateY")}
+                min={-200}
+                max={200}
+                step={1}
+              />
+            </div>
+          </div>
         </AccordionContent>
       </AccordionItem>
 
@@ -263,35 +264,38 @@ export function Controls({ settings, setSettings }: ControlsProps) {
                 <Slider value={[settings.flow.contrast]} onValueChange={(v) => updateNested('flow', 'contrast', v[0])} min={0} max={3} step={0.1} />
               </div>
               
-              <div className="space-y-3">
-                <Label className="flex items-center gap-2">
-                  <Palette className="w-3 h-3" /> Tint Color
-                </Label>
-                <ColorPicker
-                  // 1. READ: Combine rgbR, rgbG, rgbB into a single HSVA object for the picker
-                  value={rgbaToHsva({
-                    r: settings.flow.rgbR * 255,
-                    g: settings.flow.rgbG * 255,
-                    b: settings.flow.rgbB * 255,
-                    a: 1
-                  })}
-                  // 2. WRITE: Split the picker result back into rgbR, rgbG, rgbB
-                  onValueChange={(hsva) => {
-                    const rgba = hsvaToRgba(hsva);
-                    setSettings((prev) => ({
-                      ...prev,
-                      flow: {
-                        ...prev.flow,
-                        rgbR: rgba.r / 255,
-                        rgbG: rgba.g / 255,
-                        rgbB: rgba.b / 255,
-                      },
-                    }));
-                  }}
-                  hideDefaultSwatches
-                  hideContrastRatio
-                  className="w-full max-w-none"
-                />
+              {/* UPDATED: Flow Shader Color Picker Layout */}
+              <div className="flex flex-wrap gap-4">
+                 <div className="flex-1 min-w-[300px] space-y-2">
+                    <Label className="flex items-center gap-2">
+                      <Palette className="w-3 h-3" /> Tint Color
+                    </Label>
+                    <ColorPicker
+                      // 1. READ: Combine rgbR, rgbG, rgbB into a single HSVA object for the picker
+                      value={rgbaToHsva({
+                        r: settings.flow.rgbR * 255,
+                        g: settings.flow.rgbG * 255,
+                        b: settings.flow.rgbB * 255,
+                        a: 1
+                      })}
+                      // 2. WRITE: Split the picker result back into rgbR, rgbG, rgbB
+                      onValueChange={(hsva) => {
+                        const rgba = hsvaToRgba(hsva);
+                        setSettings((prev) => ({
+                          ...prev,
+                          flow: {
+                            ...prev.flow,
+                            rgbR: rgba.r / 255,
+                            rgbG: rgba.g / 255,
+                            rgbB: rgba.b / 255,
+                          },
+                        }));
+                      }}
+                      hideDefaultSwatches
+                      hideContrastRatio
+                      className="w-full max-w-none"
+                    />
+                 </div>
               </div>
 
               <div className="space-y-3">
@@ -317,9 +321,9 @@ export function Controls({ settings, setSettings }: ControlsProps) {
                 <Label className="flex items-center gap-2">
                   <Palette className="w-3 h-3" /> Shader Colors
                 </Label>
-                
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  <div>
+                {/* UPDATED: Flex layout with min-width 300px for shared wrapping */}
+                <div className="flex flex-wrap gap-4">
+                  <div className="flex-1 min-w-[300px]">
                     <Label className="text-xs uppercase mb-2 block text-muted-foreground">Color 1</Label>
                     <ColorPicker
                       value={rgbaToHsva({
@@ -341,8 +345,7 @@ export function Controls({ settings, setSettings }: ControlsProps) {
                       className="w-full max-w-none"
                     />
                   </div>
-                  
-                  <div>
+                  <div className="flex-1 min-w-[300px]">
                     <Label className="text-xs uppercase mb-2 block text-muted-foreground">Color 2</Label>
                     <ColorPicker
                       value={rgbaToHsva({
@@ -364,8 +367,7 @@ export function Controls({ settings, setSettings }: ControlsProps) {
                       className="w-full max-w-none"
                     />
                   </div>
-                  
-                  <div>
+                  <div className="flex-1 min-w-[300px]">
                     <Label className="text-xs uppercase mb-2 block text-muted-foreground">Color 3</Label>
                     <ColorPicker
                       value={rgbaToHsva({
@@ -389,7 +391,6 @@ export function Controls({ settings, setSettings }: ControlsProps) {
                   </div>
                 </div>
               </div>
-
               <div className="space-y-3">
                 <Label>Contrast: {settings.balatro.contrast.toFixed(2)}</Label>
                 <Slider value={[settings.balatro.contrast]} onValueChange={(v) => updateNested('balatro', 'contrast', v[0])} min={0} max={5} step={0.1} />
@@ -446,10 +447,13 @@ export function Controls({ settings, setSettings }: ControlsProps) {
           {settings.activeShader === 'charged-cells' && (
             <div className="space-y-4 animate-in fade-in slide-in-from-left-2">
               <div className="space-y-6">
-                <Label className="flex items-center gap-2"><Palette className="w-3 h-3" /> Cell Colors</Label>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <Label className="flex items-center gap-2">
+                  <Palette className="w-3 h-3" /> Cell Colors
+                </Label>
+                {/* UPDATED: Flex layout with min-width 300px for shared wrapping */}
+                <div className="flex flex-wrap gap-4">
                   {/* Color 1 */}
-                  <div>
+                  <div className="flex-1 min-w-[300px]">
                     <Label className="text-xs uppercase mb-2 block text-muted-foreground">Color 1</Label>
                     <ColorPicker
                       value={rgbaToHsva({
@@ -472,7 +476,7 @@ export function Controls({ settings, setSettings }: ControlsProps) {
                     />
                   </div>
                   {/* Color 2 */}
-                  <div>
+                  <div className="flex-1 min-w-[300px]">
                     <Label className="text-xs uppercase mb-2 block text-muted-foreground">Color 2</Label>
                     <ColorPicker
                       value={rgbaToHsva({
@@ -495,7 +499,7 @@ export function Controls({ settings, setSettings }: ControlsProps) {
                     />
                   </div>
                   {/* Color 3 */}
-                  <div>
+                  <div className="flex-1 min-w-[300px]">
                     <Label className="text-xs uppercase mb-2 block text-muted-foreground">Color 3</Label>
                     <ColorPicker
                       value={rgbaToHsva({
@@ -519,7 +523,6 @@ export function Controls({ settings, setSettings }: ControlsProps) {
                   </div>
                 </div>
               </div>
-
               <div className="space-y-3">
                 <Label>Speed: {settings.chargedCells.speed.toFixed(2)}</Label>
                 <Slider value={[settings.chargedCells.speed]} onValueChange={(v) => updateNested('chargedCells', 'speed', v[0])} min={0} max={5} step={0.1} />
@@ -550,7 +553,6 @@ export function Controls({ settings, setSettings }: ControlsProps) {
           </div>
         </AccordionTrigger>
         <AccordionContent className="space-y-6 pt-4">
-
           {/* Blur */}
           <div className="space-y-3">
             <Label>Blur Type</Label>
@@ -571,6 +573,7 @@ export function Controls({ settings, setSettings }: ControlsProps) {
               </SelectContent>
             </Select>
           </div>
+
           {settings.blurType !== "none" && (
             <div className="space-y-4 animate-in fade-in slide-in-from-top-2">
               <div className="space-y-2">
@@ -628,6 +631,7 @@ export function Controls({ settings, setSettings }: ControlsProps) {
               </SelectContent>
             </Select>
           </div>
+
           {settings.noiseType !== "none" && (
             <div className="space-y-2 animate-in fade-in slide-in-from-top-2">
               <Label>Noise Strength: {settings.noiseStrength.toFixed(2)}</Label>
@@ -667,11 +671,11 @@ export function Controls({ settings, setSettings }: ControlsProps) {
                 {settings.isFrozen ? "Paused" : "Playing"}
               </span>
             </div>
-              <HalomotButton
-                onClick={toggleAnimation}
-                inscription={settings.isFrozen ? "Resume" : "Pause"}
-                icon={settings.isFrozen ? <Play className="h-3 w-3" /> : <Pause className="h-3 w-3" />}
-              />
+            <HalomotButton
+              onClick={toggleAnimation}
+              inscription={settings.isFrozen ? "Resume" : "Pause"}
+              icon={settings.isFrozen ? <Play className="h-3 w-3" /> : <Pause className="h-3 w-3" />}
+            />
           </div>
 
           {settings.isFrozen && (
@@ -708,8 +712,8 @@ export function Controls({ settings, setSettings }: ControlsProps) {
             <button
               className={cn(
                 "px-4 py-2 text-sm font-medium -mb-px border-b-2 transition-colors",
-                tab === 'export' 
-                  ? "border-primary text-primary" 
+                tab === 'export'
+                  ? "border-primary text-primary"
                   : "border-transparent hover:text-foreground/80 text-muted-foreground"
               )}
               onClick={() => setTab('export')}
@@ -719,8 +723,8 @@ export function Controls({ settings, setSettings }: ControlsProps) {
             <button
               className={cn(
                 "px-4 py-2 text-sm font-medium -mb-px border-b-2 transition-colors",
-                tab === 'import' 
-                  ? "border-primary text-primary" 
+                tab === 'import'
+                  ? "border-primary text-primary"
                   : "border-transparent hover:text-foreground/80 text-muted-foreground"
               )}
               onClick={() => setTab('import')}
@@ -774,7 +778,6 @@ export function Controls({ settings, setSettings }: ControlsProps) {
 
       {/* 7. CREDITS & INFO */}
       <CreditsInfo />
-      
     </Accordion>
   );
 }
